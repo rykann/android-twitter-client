@@ -1,6 +1,7 @@
 package org.kannegiesser.twitterclient.adapters;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.squareup.picasso.Picasso;
 import org.kannegiesser.twitterclient.R;
 import org.kannegiesser.twitterclient.models.Tweet;
 
+import java.util.Date;
 import java.util.List;
 
 public class TweetsAdapter extends ArrayAdapter<Tweet> {
@@ -22,6 +24,7 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
         TextView userName;
         TextView screenName;
         TextView tweetText;
+        TextView createdAt;
 
         static ViewHolder build(View view) {
             ViewHolder viewHolder = new ViewHolder();
@@ -29,6 +32,7 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
             viewHolder.userName = (TextView) view.findViewById(R.id.tvUserName);
             viewHolder.screenName = (TextView) view.findViewById(R.id.tvScreenName);
             viewHolder.tweetText = (TextView) view.findViewById(R.id.tvTweetText);
+            viewHolder.createdAt = (TextView) view.findViewById(R.id.tvCreatedAt);
             return viewHolder;
         }
     }
@@ -60,5 +64,19 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
         viewHolder.userName.setText(tweet.user.name);
         viewHolder.screenName.setText("@" + tweet.user.screenName);
         viewHolder.tweetText.setText(tweet.text);
+        viewHolder.createdAt.setText(relativeTime(tweet.createdAt));
+    }
+
+    private String relativeTime(Date createdAt) {
+        long timeInMillis = createdAt.getTime();
+        String relativeTime = DateUtils.getRelativeTimeSpanString(
+                timeInMillis,
+                System.currentTimeMillis(),
+                DateUtils.SECOND_IN_MILLIS).toString();
+        return relativeTime
+                .replaceFirst(" seconds? ago", "s")
+                .replaceFirst(" minutes? ago", "m")
+                .replaceFirst(" hours? ago", "h")
+                .replaceFirst(" days? ago", "d");
     }
 }
