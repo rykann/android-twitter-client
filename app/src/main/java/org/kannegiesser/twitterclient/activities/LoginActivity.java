@@ -1,4 +1,4 @@
-package org.kannegiesser.twitterclient;
+package org.kannegiesser.twitterclient.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
+
+import org.kannegiesser.twitterclient.R;
+import org.kannegiesser.twitterclient.clients.TwitterApi;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterApi> {
 

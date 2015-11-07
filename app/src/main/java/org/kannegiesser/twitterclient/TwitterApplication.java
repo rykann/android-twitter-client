@@ -2,7 +2,8 @@ package org.kannegiesser.twitterclient;
 
 import android.content.Context;
 
-import org.kannegiesser.twitterclient.models.TwitterApiConfig;
+import org.kannegiesser.twitterclient.clients.TwitterApi;
+import org.kannegiesser.twitterclient.clients.TwitterApiConfig;
 
 /*
  * This is the Android application itself and is used to configure various settings

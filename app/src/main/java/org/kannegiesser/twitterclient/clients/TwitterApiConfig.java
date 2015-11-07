@@ -1,4 +1,4 @@
-package org.kannegiesser.twitterclient.models;
+package org.kannegiesser.twitterclient.clients;
 
 import android.content.Context;
 import android.content.res.AssetManager;

@@ -1,4 +1,4 @@
-package org.kannegiesser.twitterclient;
+package org.kannegiesser.twitterclient.clients;
 
 import android.content.Context;
 
@@ -6,7 +6,6 @@ import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.kannegiesser.twitterclient.models.TwitterApiConfig;
 import org.scribe.builder.api.Api;
 
 /*

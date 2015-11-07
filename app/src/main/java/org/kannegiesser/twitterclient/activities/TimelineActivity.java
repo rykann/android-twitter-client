@@ -1,4 +1,4 @@
-package org.kannegiesser.twitterclient;
+package org.kannegiesser.twitterclient.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,8 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.kannegiesser.twitterclient.R;
+import org.kannegiesser.twitterclient.TwitterApplication;
 import org.kannegiesser.twitterclient.adapters.TweetsAdapter;
 import org.kannegiesser.twitterclient.models.Tweet;
 
