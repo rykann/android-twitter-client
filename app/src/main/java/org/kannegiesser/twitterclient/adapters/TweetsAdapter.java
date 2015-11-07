@@ -17,34 +17,48 @@ import java.util.List;
 
 public class TweetsAdapter extends ArrayAdapter<Tweet> {
 
+    private static class ViewHolder {
+        ImageView profileImage;
+        TextView userName;
+        TextView screenName;
+        TextView tweetText;
+
+        static ViewHolder build(View view) {
+            ViewHolder viewHolder = new ViewHolder();
+            viewHolder.profileImage = (ImageView) view.findViewById(R.id.ivProfileImage);
+            viewHolder.userName = (TextView) view.findViewById(R.id.tvUserName);
+            viewHolder.screenName = (TextView) view.findViewById(R.id.tvScreenName);
+            viewHolder.tweetText = (TextView) view.findViewById(R.id.tvTweetText);
+            return viewHolder;
+        }
+    }
+
     public TweetsAdapter(Context context, List<Tweet> tweets) {
         super(context, 0, tweets);
     }
 
-    //TODO: implement view holder pattern
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Tweet tweet = getItem(position);
+        ViewHolder viewHolder;
 
-        // if a recycled view wasn't given, inflate a new one
+        // if a recycled view wasn't given, inflate a new one and cache its views
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet, parent, false);
+            viewHolder = ViewHolder.build(convertView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
-        ivProfileImage.setImageResource(android.R.color.transparent);
-        Picasso.with(getContext()).load(tweet.user.profileImageUrl).noFade().into(ivProfileImage);
-
-        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
-        tvUserName.setText(tweet.user.name);
-
-        TextView tvScreenName = (TextView) convertView.findViewById(R.id.tvScreenName);
-        tvScreenName.setText("@" + tweet.user.screenName);
-
-        TextView tvTweetText = (TextView) convertView.findViewById(R.id.tvTweetText);
-        tvTweetText.setText(tweet.text);
-
+        populateViews(viewHolder, getItem(position));
         return convertView;
+    }
+
+    private void populateViews(ViewHolder viewHolder, Tweet tweet) {
+        viewHolder.profileImage.setImageResource(android.R.color.transparent);
+        Picasso.with(getContext()).load(tweet.user.profileImageUrl).noFade().into(viewHolder.profileImage);
+        viewHolder.userName.setText(tweet.user.name);
+        viewHolder.screenName.setText("@" + tweet.user.screenName);
+        viewHolder.tweetText.setText(tweet.text);
     }
 }
