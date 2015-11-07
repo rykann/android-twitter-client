@@ -1,0 +1,4 @@
+base.url=https://api.twitter.com/1.1
+callback.url=oauth://your.callback.url
+consumer.key=your-twitter-consumer-key
+consumer.secret=your-twitter-consumer-secret
