@@ -32,11 +32,13 @@ public class TwitterApi extends OAuthBaseClient {
                 TwitterApiConfig.getCallbackUrl());
 	}
 
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(String maxId, AsyncHttpResponseHandler handler) {
 		String url = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
-		params.put("since_id", 1);
+        if (maxId != null) {
+            params.put("max_id", maxId);
+        }
 		client.get(url, params, handler);
 	}
 }
