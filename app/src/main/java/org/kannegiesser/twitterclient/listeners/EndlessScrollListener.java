@@ -1,6 +1,5 @@
 package org.kannegiesser.twitterclient.listeners;
 
-import android.util.Log;
 import android.widget.AbsListView;
 
 public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
@@ -19,7 +18,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        Log.d(TAG, String.format("[onScroll]: firstVisibleItem: %d, visibleItemCount: %d, totalItemCount: %d", firstVisibleItem, visibleItemCount, totalItemCount));
+        //Log.d(TAG, String.format("[onScroll]: firstVisibleItem: %d, visibleItemCount: %d, totalItemCount: %d", firstVisibleItem, visibleItemCount, totalItemCount));
 
         if (loading) {
             if (totalItemCount > previousTotal) {
@@ -36,7 +35,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        Log.d(TAG, "[onScrollStateChanged] scrollState: " + scrollState);
+        //Log.d(TAG, "[onScrollStateChanged] scrollState: " + scrollState);
     }
 
     public abstract void onLoadMore();

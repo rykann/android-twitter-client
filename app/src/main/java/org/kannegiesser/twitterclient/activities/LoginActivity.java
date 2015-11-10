@@ -3,9 +3,7 @@ package org.kannegiesser.twitterclient.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
@@ -23,22 +21,12 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterApi> {
         Log.i(TAG, "onCreate");
 	}
 
-
-	// Inflate the menu; this adds items to the action bar if it is present.
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
-
 	// OAuth authenticated successfully, launch primary authenticated activity
-	// i.e Display application "homepage"
 	@Override
 	public void onLoginSuccess() {
         Log.i(TAG, "onLoginSuccess");
         Intent i = new Intent(this, TimelineActivity.class);
         startActivity(i);
-		Toast.makeText(this, "Success!!!", Toast.LENGTH_SHORT).show();
 	}
 
 	// OAuth authentication flow failed, handle the error
@@ -50,10 +38,9 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterApi> {
 
 	// Click handler method for the button used to start OAuth flow
 	// Uses the client to initiate OAuth authorization
-	// This should be tied to a button used to login
+	// This should be tied to a button used to log in.
 	public void loginToRest(View view) {
         Log.i(TAG, "loginToRest");
 		getClient().connect();
 	}
-
 }

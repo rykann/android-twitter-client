@@ -1,8 +1,11 @@
 package org.kannegiesser.twitterclient.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,12 +18,13 @@ import org.json.JSONObject;
 import org.kannegiesser.twitterclient.R;
 import org.kannegiesser.twitterclient.TwitterApplication;
 import org.kannegiesser.twitterclient.adapters.TweetsAdapter;
+import org.kannegiesser.twitterclient.fragments.ComposeTweetDialog;
 import org.kannegiesser.twitterclient.listeners.EndlessScrollListener;
 import org.kannegiesser.twitterclient.models.Tweet;
 
 import java.util.ArrayList;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements ComposeTweetDialog.ComposeTweetDialogListener {
 
     private static final String TAG = "TimelineActivity";
 
@@ -43,7 +47,23 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
 
+        //TODO: check internet access
         fetchTweets();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.miComposeTweet) {
+            showComposeTweetDialog();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void fetchTweets() {
@@ -73,5 +93,17 @@ public class TimelineActivity extends AppCompatActivity {
         } else {
             return null;
         }
+    }
+
+    private void showComposeTweetDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ComposeTweetDialog dialog = new ComposeTweetDialog();
+        dialog.show(fm, "fragment_compose_tweet");
+    }
+
+    @Override
+    public void onTweetPosted() {
+        tweetsAdapter.clear();
+        fetchTweets();
     }
 }

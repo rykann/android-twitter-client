@@ -1,6 +1,7 @@
 package org.kannegiesser.twitterclient.clients;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -21,6 +22,9 @@ import org.scribe.builder.api.Api;
  * 
  */
 public class TwitterApi extends OAuthBaseClient {
+
+	private static final String TAG = TwitterApi.class.getName();
+
 	public static final Class<? extends Api> REST_API_CLASS = org.scribe.builder.api.TwitterApi.class;
 
 	public TwitterApi(Context context) {
@@ -40,5 +44,21 @@ public class TwitterApi extends OAuthBaseClient {
             params.put("max_id", maxId);
         }
 		client.get(url, params, handler);
+	}
+
+	public void postTweet(String text, AsyncHttpResponseHandler handler) {
+		try {
+			String url = getApiUrl("statuses/update.json");
+            RequestParams params = new RequestParams();
+            params.put("status", text);
+            client.post(url, params, handler);
+//			JSONObject body = new JSONObject();
+//			body.put("status", text);
+//            Log.d(TAG, "url: " + url + ", request body: " + body.toString());
+//			StringEntity entity = new StringEntity(body.toString());
+//			client.post(context, url, entity, "application/json", handler);
+		} catch (Exception e) {
+			Log.e(TAG, "Failed to serialize request body", e);
+		}
 	}
 }
