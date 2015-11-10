@@ -103,6 +103,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetD
 
     @Override
     public void onTweetPosted() {
+        //TODO: latest tweets should be added in a less brute force way
         tweetsAdapter.clear();
         fetchTweets();
     }
