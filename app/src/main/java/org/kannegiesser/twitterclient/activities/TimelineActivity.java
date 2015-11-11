@@ -1,5 +1,8 @@
 package org.kannegiesser.twitterclient.activities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -47,7 +50,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetD
             }
         });
 
-        //TODO: check internet access
         fetchTweets();
     }
 
@@ -67,6 +69,11 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetD
     }
 
     private void fetchTweets() {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(this, R.string.network_not_available, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         TwitterApplication.getTwitterApi().getHomeTimeline(oldestFetchedTweetId(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -106,5 +113,12 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetD
         //TODO: latest tweets should be added in a less brute force way
         tweetsAdapter.clear();
         fetchTweets();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }
