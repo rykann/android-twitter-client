@@ -1,10 +1,10 @@
 package org.kannegiesser.twitterclient.clients;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.Api;
@@ -46,19 +46,20 @@ public class TwitterApi extends OAuthBaseClient {
 		client.get(url, params, handler);
 	}
 
-	public void postTweet(String text, AsyncHttpResponseHandler handler) {
-		try {
-			String url = getApiUrl("statuses/update.json");
-            RequestParams params = new RequestParams();
-            params.put("status", text);
-            client.post(url, params, handler);
-//			JSONObject body = new JSONObject();
-//			body.put("status", text);
-//            Log.d(TAG, "url: " + url + ", request body: " + body.toString());
-//			StringEntity entity = new StringEntity(body.toString());
-//			client.post(context, url, entity, "application/json", handler);
-		} catch (Exception e) {
-			Log.e(TAG, "Failed to serialize request body", e);
+	public void getMentionsTimeline(String maxId, JsonHttpResponseHandler handler) {
+		String url = getApiUrl("statuses/mentions_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("count", 25);
+		if (maxId != null) {
+			params.put("max_id", maxId);
 		}
+		client.get(url, params, handler);
+	}
+
+	public void postTweet(String text, AsyncHttpResponseHandler handler) {
+		String url = getApiUrl("statuses/update.json");
+		RequestParams params = new RequestParams();
+		params.put("status", text);
+		client.post(url, params, handler);
 	}
 }
