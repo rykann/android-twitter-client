@@ -4,23 +4,10 @@ import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.Api;
 
-/*
- * 
- * This is the object responsible for communicating with a REST API. 
- * Specify the constants below to change the API being communicated with.
- * See a full list of supported API classes: 
- *   https://github.com/fernandezpablo85/scribe-java/tree/master/src/main/java/org/scribe/builder/api
- * Key and Secret are provided by the developer site for the given API i.e dev.twitter.com
- * Add methods for each relevant endpoint in the API.
- * 
- * NOTE: You may want to rename this object based on the service i.e TwitterClient or FlickrClient
- * 
- */
 public class TwitterApi extends OAuthBaseClient {
 
 	private static final String TAG = TwitterApi.class.getName();
@@ -46,13 +33,31 @@ public class TwitterApi extends OAuthBaseClient {
 		client.get(url, params, handler);
 	}
 
-	public void getMentionsTimeline(String maxId, JsonHttpResponseHandler handler) {
+	public void getMentionsTimeline(String maxId, AsyncHttpResponseHandler handler) {
 		String url = getApiUrl("statuses/mentions_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		if (maxId != null) {
 			params.put("max_id", maxId);
 		}
+		client.get(url, params, handler);
+	}
+
+	public void getUserTimeline(String maxId, String screenName, AsyncHttpResponseHandler handler) {
+		String url = getApiUrl("statuses/user_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("count", 25);
+		if (maxId != null) {
+			params.put("max_id", maxId);
+            params.put("screen_name", screenName);
+		}
+		client.get(url, params, handler);
+	}
+
+	public void getUserInfo(AsyncHttpResponseHandler handler) {
+		String url = getApiUrl("account/verify_credentials.json");
+		RequestParams params = new RequestParams();
+        params.put("skip_status", "true");
 		client.get(url, params, handler);
 	}
 

@@ -1,5 +1,6 @@
 package org.kannegiesser.twitterclient.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,6 +44,9 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetD
         if (id == R.id.miComposeTweet) {
             showComposeTweetDialog();
         }
+        if (id == R.id.miProfile) {
+            launchProfileActivity();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -50,6 +54,11 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetD
         FragmentManager fm = getSupportFragmentManager();
         ComposeTweetDialog dialog = new ComposeTweetDialog();
         dialog.show(fm, "fragment_compose_tweet");
+    }
+
+    private void launchProfileActivity() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     @Override

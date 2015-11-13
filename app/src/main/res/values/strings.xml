@@ -9,5 +9,8 @@
     <string name="tweet">Tweet</string>
     <string name="compose_tweet_hint">What\'s happening?</string>
     <string name="network_not_available">Sorry, unable to connect to the network.</string>
+    <string name="profile">Profile</string>
+    <string name="followers">followers</string>
+    <string name="following">following</string>
 
 </resources>

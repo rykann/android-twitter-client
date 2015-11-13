@@ -8,4 +8,11 @@
         app:showAsAction="ifRoom"
         android:title="@string/compose_tweet">
     </item>
+
+    <item
+        android:id="@+id/miProfile"
+        android:icon="@drawable/ic_profile"
+        app:showAsAction="ifRoom"
+        android:title="@string/profile">
+    </item>
 </menu>
