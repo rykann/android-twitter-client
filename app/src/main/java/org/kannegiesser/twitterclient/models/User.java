@@ -19,7 +19,7 @@ public class User {
         user.name = json.getString("name");
         user.screenName = json.getString("screen_name");
         user.profileImageUrl = json.getString("profile_image_url");
-        user.profileBannerUrl = json.getString("profile_banner_url");
+        user.profileBannerUrl = json.optString("profile_banner_url");
         user.description = json.getString("description");
         user.followingCount = json.getInt("friends_count");
         user.followersCount = json.getInt("followers_count");
