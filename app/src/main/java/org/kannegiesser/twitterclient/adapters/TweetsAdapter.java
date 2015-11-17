@@ -8,16 +8,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import org.kannegiesser.twitterclient.R;
 import org.kannegiesser.twitterclient.models.Tweet;
+import org.kannegiesser.twitterclient.models.User;
 
 import java.util.Date;
 import java.util.List;
 
 public class TweetsAdapter extends ArrayAdapter<Tweet> {
+
+    public interface TweetsAdapterListener {
+        void onProfileImageClicked(User user);
+    }
 
     private static class ViewHolder {
         ImageView profileImage;
@@ -42,7 +48,7 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
         // if a recycled view wasn't given, inflate a new one and cache its views
@@ -54,7 +60,17 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        populateViews(viewHolder, getItem(position));
+        final Tweet tweet = getItem(position);
+        populateViews(viewHolder, tweet);
+
+        viewHolder.profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TweetsAdapterListener listener = (TweetsAdapterListener) getContext();
+                listener.onProfileImageClicked(tweet.user);
+            }
+        });
+
         return convertView;
     }
 

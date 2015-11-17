@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import com.astuetz.PagerSlidingTabStrip;
 
 import org.kannegiesser.twitterclient.R;
+import org.kannegiesser.twitterclient.adapters.TweetsAdapter;
 import org.kannegiesser.twitterclient.fragments.ComposeTweetDialog;
 import org.kannegiesser.twitterclient.fragments.HomeTimelineFragment;
 import org.kannegiesser.twitterclient.fragments.MentionsTimelineFragment;
+import org.kannegiesser.twitterclient.models.User;
 
-public class TimelineActivity extends AppCompatActivity implements ComposeTweetDialog.ComposeTweetDialogListener {
+public class TimelineActivity extends AppCompatActivity implements ComposeTweetDialog.ComposeTweetDialogListener, TweetsAdapter.TweetsAdapterListener {
 
     private static final String TAG = "TimelineActivity";
 
@@ -57,15 +59,25 @@ public class TimelineActivity extends AppCompatActivity implements ComposeTweetD
     }
 
     private void launchProfileActivity() {
+        launchProfileActivity(null);
+    }
+
+    private void launchProfileActivity(String screenName) {
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("screenName", screenName);
         startActivity(intent);
     }
 
     @Override
     public void onTweetPosted() {
-        //TODO: latest tweets should be added in a less brute force way
+        //TODO: restore this functionality (time permitting, do it in a less brute force way)
         //homeTimelineFragment.clear();
         //homeTimelineFragment.fetchTweets();
+    }
+
+    @Override
+    public void onProfileImageClicked(User user) {
+        launchProfileActivity(user.screenName);
     }
 
     public class TweetsPagerAdapter extends FragmentPagerAdapter {

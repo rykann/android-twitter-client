@@ -47,9 +47,9 @@ public class TwitterApi extends OAuthBaseClient {
 		String url = getApiUrl("statuses/user_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
+		params.put("screen_name", screenName);
 		if (maxId != null) {
 			params.put("max_id", maxId);
-            params.put("screen_name", screenName);
 		}
 		client.get(url, params, handler);
 	}
@@ -58,6 +58,18 @@ public class TwitterApi extends OAuthBaseClient {
 		String url = getApiUrl("account/verify_credentials.json");
 		RequestParams params = new RequestParams();
         params.put("skip_status", "true");
+		client.get(url, params, handler);
+	}
+
+	public void getUserInfo(String screenName, AsyncHttpResponseHandler handler) {
+		// if no screen name given, fetch current user's profile
+		if (screenName == null) {
+			getUserInfo(handler);
+			return;
+		}
+		String url = getApiUrl("users/show.json");
+		RequestParams params = new RequestParams();
+		params.put("screen_name", screenName);
 		client.get(url, params, handler);
 	}
 

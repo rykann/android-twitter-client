@@ -14,10 +14,11 @@ import org.apache.http.Header;
 import org.json.JSONObject;
 import org.kannegiesser.twitterclient.R;
 import org.kannegiesser.twitterclient.TwitterApplication;
+import org.kannegiesser.twitterclient.adapters.TweetsAdapter;
 import org.kannegiesser.twitterclient.fragments.UserTimelineFragment;
 import org.kannegiesser.twitterclient.models.User;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements TweetsAdapter.TweetsAdapterListener {
 
     private static final String TAG = ProfileActivity.class.getName();
 
@@ -28,12 +29,13 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        fetchUserInfo();
+        String screenName = getIntent().getStringExtra("screenName");
+        fetchUserInfo(screenName);
 
         // The first time the activity is created, dynamically add the user timeline fragment
         // to the container defined in the layout
         if (savedInstanceState == null) {
-            UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance();
+            UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.userTimelineContainer, userTimelineFragment);
@@ -41,8 +43,8 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void fetchUserInfo() {
-        TwitterApplication.getTwitterApi().getUserInfo(new JsonHttpResponseHandler() {
+    private void fetchUserInfo(String screenName) {
+        TwitterApplication.getTwitterApi().getUserInfo(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -81,5 +83,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         TextView tvFollowersCount = (TextView) findViewById(R.id.tvFollowersCount);
         tvFollowersCount.setText(String.format("%d", user.followersCount));
+    }
+
+    @Override
+    public void onProfileImageClicked(User user) {
+        // Do nothing since we're already displaying the tweet author's profile (will need to change
+        // in the future if we display the original author's profile image for retweets)
     }
 }
