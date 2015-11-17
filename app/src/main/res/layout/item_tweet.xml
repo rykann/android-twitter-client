@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:contentDescription="@string/user_profile_image"
-        android:background="#43a1fe" />
+        android:background="@android:color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
